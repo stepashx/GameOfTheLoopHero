@@ -12,7 +12,7 @@ var width = 130;
 var height = 150;
 var move = 0; 
 var character = new Image();
-character.src = "Images/grounds/character.png";
+character.src = "png/Person/Male_adventurer/character1.png";
 
 function animateRight(){
     context.clearRect(0, 0, canvas.width, canvas.height);
