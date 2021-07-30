@@ -1,7 +1,6 @@
-var canvas = document.getElementById("character1");
-var context = canvas.getContext('2d');
-canvas.width = window.innerWidth; //введите размер ячейки
-canvas.height = window.innerHeight - window.innerHeight/40;//введите размер ячейки
+var canvas1 = document.getElementById("canvas1");
+var context = canvas1.getContext('2d');
+
 var coordX = 0;
 var coordY = 530;
 var innerX = 90;
@@ -12,7 +11,7 @@ var width = 130;
 var height = 150;
 var move = 0; 
 var character = new Image();
-character.src = "png/Person/Male_adventurer/character1.png";
+character.src = "png/character_maleAdventurer_sheet.png";
 
 function animateRight(){
     context.clearRect(0, 0, canvas.width, canvas.height);
@@ -65,4 +64,4 @@ function animateLeft(){
     }
     context.drawImage(character, 665-coordX, coordY, innerX, innerY, marginX-move, marginY, width, height);
 }
-setInterval(animateUp, 100);
+setInterval(animateRight, 100);

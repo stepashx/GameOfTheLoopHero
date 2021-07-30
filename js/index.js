@@ -1,0 +1,3 @@
+generationBoard();
+visualBoard()
+
