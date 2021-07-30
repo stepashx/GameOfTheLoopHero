@@ -1,2 +1,3 @@
+newBoard();
 generationBoard();
 visualBoard();

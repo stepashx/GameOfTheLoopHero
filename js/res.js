@@ -1,24 +1,24 @@
 let Block = {
     decor: {
-        1 : {
+        0 : {
             x : 10,
             y : 0,
             canMove : true,
             hp : 0
         },
-        2 : {
+        1 : {
             x : 204,
             y : 0,
             canMove : true,
             hp : 0
         },
-        3 : {
+        2 : {
             x : 398,
             y : 0,
             canMove : true,
             hp : 0
         },
-        4 : {
+        3 : {
             x : 592,
             y : 0,
             canMove : true,
@@ -46,56 +46,56 @@ let Block = {
         }
     },
     loot : {
-        1 : {
+        0 : {
             x : 10,
             y : 500,
             canMove : true,
             hp : 0
         },
-        2 : {
+        1 : {
             x : 204,
             y : 500,
             canMove : true,
             hp : 0
             
         },
-        3 : {
+        2 : {
             x : 398,
             y : 500,
             canMove : true,
             hp : 0
         },
-        4 : {
+        3 : {
             x : 592,
             y : 500,
             canMove : true,
             hp : 0
         },
-        5 : {
+        4 : {
             x : 786,
             y : 500,
             canMove : true,
             hp : 0
         },
-        6 : {
+        5 : {
             x : 980,
             y : 500,
             canMove : true,
             hp : 0
         },
-        7 : {
+        6 : {
             x : 1174,
             y : 500,
             canMove : true,
             hp : 0
         },
-        8 : {
+        7 : {
             x : 1368,
             y : 500,
             canMove : true,
             hp : 0
         },
-        9 : {
+        8 : {
             x : 1562,
             y : 500,
             canMove : true,
@@ -141,13 +141,13 @@ let Block = {
         }
     },
     sand : {
-        1 : {
+        0 : {
             x : 10,
             y : 1000,
             canMove : true,
             hp : 0
         },
-        2 : {
+        1 : {
             x : 204,
             y : 1000,
             canMove : true,
@@ -155,28 +155,28 @@ let Block = {
         }
     },
     tower : {
-        1 : {
+        0 : {
             x : 10,
             y : 1250,
             canMove : true,
             colour : 1,
             hp : 0
         },
-        2 : {
+        1 : {
             x : 204,
             y : 1250,
             canMove : true,
             colour : 2,
             hp : 0
         },
-        3 : {
+        2 : {
             x : 10,
             y : 1250,
             canMove : true,
             colour : 3,
             hp : 0
         },
-        4 : {
+        3 : {
             x : 204,
             y : 1250,
             canMove : true,
@@ -185,7 +185,7 @@ let Block = {
         }
     },
     castle : {
-        1 : {
+        0 : {
             x : 10,
             y : 1500,
             canMove : true,
