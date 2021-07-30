@@ -16,7 +16,7 @@ function newBoard() {
         board[i] = [];   
         for (j = 0; j < 21; j++) {
             board[i][j] = [];  
-            board[i][j][0] = 'loot';
+            board[i][j][0] = rand();
             board[i][j][1] = 1;  
             board[i][j][2] = boardXY[0] * j;
             board[i][j][3] = boardXY[2] * i; 
