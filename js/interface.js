@@ -1,14 +1,17 @@
-time = new Time(0, 0, "https://image.flaticon.com/icons/png/512/2972/2972528.png");
-healthPoint = new HealthPoint(10, 32,
-    "https://image.flaticon.com/icons/png/512/929/929417.png",
-    "https://image.flaticon.com/icons/png/512/535/535285.png");
-stock = new Slots("https://image.flaticon.com/icons/png/512/38/38820.png", 80);
+let time = new Time(0, 0, "./image/clock.png");
+let healthPoint = new HealthPoint(10, 32,
+    "./image/redHeart.png",
+    "./image/blackHeart.png");
+let stock = new Slots("./image/frame.png", 80);
+// let compass = new Compass("./image/compass.png", 200);
+
 
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     time.draw();
     healthPoint.draw();
     stock.draw();
+    // compass.draw();
 }
 
 draw();

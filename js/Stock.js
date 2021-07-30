@@ -32,10 +32,12 @@ class Slots {
     }
 
     draw() {
-        console.log("Konch")
         ctx.beginPath();
         const slotModel = new Image();
         slotModel.src = this.slotFrame;
+        slotModel.onclick = () => {
+            console.log('grgrgrgr')
+        }
         for (let i = 0; i < 3; i++) {
             ctx.drawImage(slotModel, innerWidth - this.slotSize - 10, innerHeight / 3.5 + i * (this.slotSize + 16) + 10, this.slotSize, this.slotSize);
         }
