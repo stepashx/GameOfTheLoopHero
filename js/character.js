@@ -14,7 +14,7 @@ class Character {
     shild = false
     coordsX = 0;
     coordsY = 0;
-    moves = 50;
+    moves = 6;
     constructor(x = 1, y = 1, pic = "png/character_maleAdventurer_sheet.png", name = "Player") {
         this.name = name;
         this.coordsY = y;
