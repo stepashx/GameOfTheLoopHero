@@ -30,6 +30,8 @@ function newBoard() {
             board[i][j][1] = 1;  
             board[i][j][2] = boardXY[0] * j;
             board[i][j][3] = boardXY[2] * i; 
+            board[i][j][4] = true;
+            board[i][j][5] = -1;
         }          
     }
 }   

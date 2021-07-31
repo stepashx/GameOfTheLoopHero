@@ -1,5 +1,6 @@
 let canvas55 = document.getElementById("canvas1");
 let context55 = canvas55.getContext('2d');
+let killcount = 0;
 class Character {
     link = "png/character_maleAdventurer_sheet.png";
     name = "Player"
@@ -13,7 +14,7 @@ class Character {
     shild = false
     coordsX = 0;
     coordsY = 0;
-    moves = 6;
+    moves = 500;
     constructor(x = 1, y = 1, pic = "png/character_maleAdventurer_sheet.png", name = "Player") {
         this.name = name;
         this.coordsY = y;
@@ -56,8 +57,8 @@ class Character {
         this.def = x;
     }
 
-    isDead() {
-        return this.hp == 0 ? true : false;
+    isLive() {
+        return this.hp > 0;
     }
     isBot() {
         return this.bot;
@@ -75,7 +76,28 @@ class Character {
                 this.weapon = false;
             }
         }
-        board[y][x][5].changeHp(board[y][x][5].getHp() - damag)
+        heroes[board[y][x][5]].changeHp(heroes[board[y][x][5]].getHp() - damag)
+        if (heroes[board[y][x][5]].getHp() <= 0) {
+            board[y][x][5] = -1;
+            killcount++;
+            if (killcount == 3) {
+                this.hp = 0;
+                board[this.coordsY][this.coordsX][5] = -1;
+                alert(this.name + " победил!")
+                CreateLobbyMenu()
+                unlaunch()
+                heroes[0] = new Character(0, 1, "png/character_maleAdventurer_sheet.png", "Player" + 0);
+                heroes[1] = new Character(19, 1, "png/character_femaleAdventurer_sheet.png", "Player" + 1);
+                heroes[2] = new Character(0, 27, "png/character_femalePerson_sheet.png", "Player" + 2);
+                heroes[3] = new Character(19, 27, "png/character_malePerson_sheet.png", "Player" + 3);
+                summaryTurn = 0;
+                board[1][0][5] = 0;
+                board[1][19][5] = 1;
+                board[27][0][5] = 2;
+                board[27][19][5] = 3;
+
+            }
+        }
     }
 
     mine(x, y) {
@@ -142,25 +164,27 @@ class Character {
             mine(newX, newY);
         }
         else if (board[newY][newX][4]) {
-            if (board[newY][newX][5]) {
-                atack(newX, newY);
+            if (board[newY][newX][5] != -1) {
+                this.atack(newX, newY);
             }
             else if (board[newY][newX][0] == 'loot') {
-                pickUp(newX, newY);
+                this.pickUp(newX, newY);
             }
             else {
+                board[y][x][5] = -1;
                 this.coordsX = newX;
                 this.coordsY = newY;
+                board[newY][newX][5] = summaryTurn % 4;
             }
             this.moves--;
         }
         if (this.endMove()) {
-            this.moves=7;
+            this.moves = 7;
             summaryTurn++;
+            while (!heroes[summaryTurn % 4].isLive()) {
+                summaryTurn++;
+            }
         }
-        this.coordsX = newX;
-        this.coordsY = newY;
-        this.moves--;
     }
     move(x, y) {
         let temp = this.link;
@@ -171,10 +195,11 @@ class Character {
 
 }
 heroes = [];
-heroes[0] = new Character(0, 1, "png/character_maleAdventurer_sheet.png", "Player" + 0);
-heroes[1] = new Character(19, 1, "png/character_femaleAdventurer_sheet.png", "Player" + 1);
-heroes[2] = new Character(0, 27, "png/character_femalePerson_sheet.png", "Player" + 2);
+heroes[1] = new Character(0, 1, "png/character_maleAdventurer_sheet.png", "Player" + 0);
+heroes[2] = new Character(19, 1, "png/character_femaleAdventurer_sheet.png", "Player" + 1);
+heroes[0] = new Character(0, 27, "png/character_femalePerson_sheet.png", "Player" + 2);
 heroes[3] = new Character(19, 27, "png/character_malePerson_sheet.png", "Player" + 3);
+
 let summaryTurn = 0
 
 function preAction(way) {
@@ -182,36 +207,43 @@ function preAction(way) {
 }
 
 function draw() {
+    rename()
     context55.clearRect(0, 0, 5000, 5000);
-
     for (i = 0; i < 4; i++) {
-        
-        let coordX = 0;
-        let coordY = 0;
-        let innerX = 90;
-        let innerY = 150;
-        let marginX = 20 + heroes[i].coordsX * 184;
-        let marginX1 = 20 + heroes[i].coordsX * 92;
-        let marginY = 55 + heroes[i].coordsY * 79;
-        let width = 130;
-        let height = 150;
-        let move = 0;
-        let x = heroes[i].coordsX;
-        let y = heroes[i].coordsY;
-        if (x % 2 == 0 & y % 2 != 0) {
-            marginX += 100
-        }
-        if (y % 2 == 0 & x % 2 != 0) {
-            marginX -= 100
-        }
-        let character = new Image();
-        character.src = heroes[i].link;
-        if (x % 2 == 0) {
-            context55.drawImage(character, coordX, coordY, innerX, innerY, marginX, marginY, width, height);
-        }
-        else {
-            context55.drawImage(character, coordX, coordY, innerX, innerY, marginX + 92, marginY, width, height);
+        if (heroes[i].isLive()) {
+            let coordX = 0;
+            let coordY = 0;
+            let innerX = 90;
+            let innerY = 150;
+            let marginX = 20 + heroes[i].coordsX * 184;
+            let marginX1 = 20 + heroes[i].coordsX * 92;
+            let marginY = 55 + heroes[i].coordsY * 79;
+            let width = 130;
+            let height = 150;
+            let move = 0;
+            let x = heroes[i].coordsX;
+            let y = heroes[i].coordsY;
+            if (x % 2 == 0 & y % 2 != 0) {
+                marginX += 100
+            }
+            if (y % 2 == 0 & x % 2 != 0) {
+                marginX -= 100
+            }
+            let character = new Image();
+            character.src = heroes[i].link;
+            if (x % 2 == 0) {
+                context55.drawImage(character, coordX, coordY, innerX, innerY, marginX, marginY, width, height);
+            }
+            else {
+                context55.drawImage(character, coordX, coordY, innerX, innerY, marginX + 92, marginY, width, height);
+            }
         }
     }
 }
 setInterval(draw, 100);
+
+function rename(){
+    for(i=0;i<4;i++){
+        heroes[i].name=data.nicknames[i];
+    }
+}
