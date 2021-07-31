@@ -13,5 +13,4 @@ function draw() {
     stock.draw();
     // compass.draw();
 }
-
-draw();
+setInterval(draw,100);

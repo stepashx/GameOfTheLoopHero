@@ -19,11 +19,6 @@ class Time {
         ctx.fillStyle = "black";
         ctx.font = "32px 'Montserrat'";
         ctx.fillText("Номер хода: " + this.turn.toString(), 32, 28)
-        let imga = new Image();
-        imga.src = "./image/clock.png"
-        imga.alt = "tfjhtg"
-        ctx.drawImage(imga, 10, 10, 100, 100);
-
         ctx.closePath()
     }
 }
