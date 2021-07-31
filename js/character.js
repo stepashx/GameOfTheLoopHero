@@ -60,7 +60,9 @@ class Character {
     isBot() {
         return this.bot;
     }
-
+    endMove(){
+        return this.moves == 0 ? true : false;
+    }
 
     atack(x, y) {
         let damag = this.atk;
@@ -131,9 +133,11 @@ class Character {
                 newY++;
             }
         }
+        if(newX<0 | newY<0 | newX>29 | newY>21){
+            return 0;
+        }
         if (board[newX][newY][0] == "mountine") {
             mine(newX, newY);
-            return true;
         }
         else if (board[newX][newY][4]) {
             if (board[newX][newY][5]) {
@@ -147,10 +151,9 @@ class Character {
                 this.coordsY = newY;
             }
             this.moves--;
-            return true;
         }
-        else {
-            return false;
+        if(this.endMove()){
+            summaryTurn++;
         }
     }
     move(x, y) {
@@ -202,5 +205,9 @@ function drawHeroes() {
         heroes[i].draw();
     }
 }
+let summaryTurn = 0
 
+function preAction(way) {
+    heroes[summaryTurn % 4].action(way);
+}
 setInterval(drawHeroes(), 100);

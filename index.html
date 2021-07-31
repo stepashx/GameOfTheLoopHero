@@ -10,12 +10,12 @@
     <main id="main"></main>
     <div class="compass" style="display: none; z-index: 5;" id="compas">
         <svg viewBox="0 0 200 200">
-            <path onclick="action()" id="west" class="triangle" fill="#e52165" d="M 3.3246269,52.639925 100.29291,101.95522 1.6623134,148.5 Z"/>
-            <path id="north_west" class="triangle" fill="#0d1137" d="M 100.29291,101.95522 99.738806,3.3246269 3.3246269,52.639925 Z"/>
-            <path id="north_east" class="triangle" fill="#e52165" d="M 99.738806,3.3246269 100.29291,101.95522 197.26119,53.194029 Z"/>
-            <path id="east" class="triangle" fill="#0d1137" d="m 100.29291,101.95522 96.96828,-48.761191 0.55411,96.414181 z"/>
-            <path id="south_east" class="triangle" fill="#e52165" d="m 100.29291,101.95522 97.52239,47.65299 -98.076494,49.3153 z"/>
-            <path id="south_west" class="triangle" fill="#0d1137" d="M 100.29291,101.95522 99.738806,198.92351 1.6623134,148.5 Z"/>
+            <path onclick="preAction('west')" id="west" class="triangle" fill="#e52165" d="M 3.3246269,52.639925 100.29291,101.95522 1.6623134,148.5 Z"/>
+            <path onclick="preAction('north_west')" id="north_west" class="triangle" fill="#0d1137" d="M 100.29291,101.95522 99.738806,3.3246269 3.3246269,52.639925 Z"/>
+            <path onclick="preAction('north_east')" id="north_east" class="triangle" fill="#e52165" d="M 99.738806,3.3246269 100.29291,101.95522 197.26119,53.194029 Z"/>
+            <path onclick="preAction('east')" id="east" class="triangle" fill="#0d1137" d="m 100.29291,101.95522 96.96828,-48.761191 0.55411,96.414181 z"/>
+            <path onclick="preAction('south_east')" id="south_east" class="triangle" fill="#e52165" d="m 100.29291,101.95522 97.52239,47.65299 -98.076494,49.3153 z"/>
+            <path onclick="preAction('south_west')" id="south_west" class="triangle" fill="#0d1137" d="M 100.29291,101.95522 99.738806,198.92351 1.6623134,148.5 Z"/>
         </svg>
         <img src="./image/compass.png" alt="" width="200px" height="200px">
     </div>
