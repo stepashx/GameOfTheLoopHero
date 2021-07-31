@@ -88,6 +88,7 @@ function CreateLobbyMenu() {
             }
             data['isBot'][i] = heroes.children[i].children[1].children[0].children[0].checked
         }
+        launch();
     }
     const button = document.createElement('div')
     button.classList.add('button')

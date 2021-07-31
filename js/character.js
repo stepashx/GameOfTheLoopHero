@@ -71,7 +71,7 @@ class Character {
                 this.weapon = false;
             }
         }
-        (board[x][y][5].changeHp(board[x][y][5].getHp() - damag))
+        board[x][y][5].changeHp(board[x][y][5].getHp() - damag)
     }
 
     mine(x, y) {
