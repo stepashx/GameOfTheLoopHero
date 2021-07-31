@@ -18,7 +18,7 @@ class Time {
         ctx.drawImage(clockModel, this.x, this.y, this.clockSize, this.clockSize)
         ctx.fillStyle = "black";
         ctx.font = "32px 'Montserrat'";
-        ctx.fillText("Номер хода: " + this.turn.toString(), 32, 28)
+        ctx.fillText("Ход №" + (Math.floor((summaryTurn)/4)+1) +' \n игрока: ' + heroes[summaryTurn % 4].name, 32, 28)
         ctx.closePath()
     }
 }

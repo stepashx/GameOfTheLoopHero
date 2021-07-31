@@ -43,9 +43,9 @@ function CreateLobbyMenu() {
     chooseYourHero.classList.add('choose_your_hero')
     const heroes = document.createElement('div')
     heroes.classList.add("heroes")
-    const link = ["./images/femaleCharacter.png",
+    const link = [        "./images/maleCharacter.png",
+    "./images/femaleCharacter.png",
         "./images/feamaleAfroamericanCharacter.png",
-        "./images/maleCharacter.png",
         "./images/maleAfroamericanCharacter.png"]
     for (let i = 0; i < 4; i++) {
         const hero = document.createElement('div')

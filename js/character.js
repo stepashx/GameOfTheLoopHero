@@ -14,7 +14,7 @@ class Character {
     shild = false
     coordsX = 0;
     coordsY = 0;
-    moves = 500;
+    moves = 5;
     constructor(x = 1, y = 1, pic = "png/character_maleAdventurer_sheet.png", name = "Player") {
         this.name = name;
         this.coordsY = y;
@@ -195,21 +195,40 @@ class Character {
 
 }
 heroes = [];
-heroes[1] = new Character(0, 1, "png/character_maleAdventurer_sheet.png", "Player" + 0);
-heroes[2] = new Character(19, 1, "png/character_femaleAdventurer_sheet.png", "Player" + 1);
-heroes[0] = new Character(0, 27, "png/character_femalePerson_sheet.png", "Player" + 2);
+heroes[0] = new Character(0, 1, "png/character_maleAdventurer_sheet.png", "Player" + 0);
+heroes[1] = new Character(19, 1, "png/character_femaleAdventurer_sheet.png", "Player" + 1);
+heroes[2] = new Character(0, 27, "png/character_femalePerson_sheet.png", "Player" + 2);
 heroes[3] = new Character(19, 27, "png/character_malePerson_sheet.png", "Player" + 3);
 
-let summaryTurn = 0
+var summaryTurn = 0
 
 function preAction(way) {
     heroes[summaryTurn % 4].action(way);
 }
 
+let time = new Time(0, 0, "./image/clock.png");
+
+let stock = new Slots("./image/frame.png", 80);
+// let compass = new Compass("./image/compass.png", 200);
+
+
+function draw1() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    time.draw();
+    stock.draw();
+    // compass.draw();
+}
+setInterval(draw1, 100);
 function draw() {
     rename()
     context55.clearRect(0, 0, 5000, 5000);
     for (i = 0; i < 4; i++) {
+        for (let j = 0; j < heroes[i].hp; j++) {
+            drawHearth(10 - j, "image/redHeart.png", i);
+        }
+        for (let j = heroes[i].hp; j < 10; j++) {
+            drawHearth(10 - j, "image/blackHeart.png", i);
+        }
         if (heroes[i].isLive()) {
             let coordX = 0;
             let coordY = 0;
@@ -242,8 +261,15 @@ function draw() {
 }
 setInterval(draw, 100);
 
-function rename(){
-    for(i=0;i<4;i++){
-        heroes[i].name=data.nicknames[i];
+function rename() {
+    for (i = 0; i < 4; i++) {
+        heroes[i].name = data.nicknames[i];
     }
+}
+function drawHearth(index, url, i) {
+    context55.beginPath();
+    const hearthModel = new Image();
+    hearthModel.src = url;
+    context55.drawImage(hearthModel, innerWidth - index * 32 - 100, i*50, 32, 32);
+    context55.closePath();
 }
