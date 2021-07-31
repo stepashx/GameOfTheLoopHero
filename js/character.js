@@ -6,9 +6,9 @@ class Character {
     hp = 10;
     atk = 5;
     def = 0;
-    weapon = "";
-    tool = "";
-    shild = "";
+    weapon = false;
+    tool = false
+    shild = false
     coordsX = 0;
     coordsY = 0;
     moves = 6;
@@ -60,40 +60,99 @@ class Character {
     isBot() {
         return this.bot;
     }
-    //block(x, y, 0) - объект на нижнем слое,  block(x,y,1) - объект на верхнем слое
-    action(x, y) {
-        if (board[x][y][0] == "mountine") {
-            mine(x, y);
+
+
+    atack(x, y) {
+        let damag = this.atk;
+        if (this.weapon) {
+            damag += this.weapon[2];
+            this.weapon[1]--;
+            if (this.weapon[1] == 0) {
+                this.weapon = false;
+            }
+        }
+        (board[x][y][5].changeHp(board[x][y][5].getHp() - damag))
+    }
+
+    mine(x, y) {
+        if (this.tool) {
+            this.moves--;
+            this.tool[1]--;
+            if (this.tool[1] == 0) {
+                this.tool = false;
+            }
+        }
+        else {
+            this.moves -= 3;
+        }
+        board[x][y][6]--;
+
+    }
+    action(way) {
+        let x = this.coordsX;
+        let y = this.coordsY;
+        let newX = x;
+        let newY = y;
+        if (way == 'east') {
+            newX++;
+        }
+        else if (way == 'west') {
+            newX--;
+        }
+        else if (x % 2 == 0) {
+            if (way == 'north-east') {
+                newY--;
+            }
+            else if (way == 'north-west') {
+                newX--;
+                newY--;
+            }
+            else if (way == 'south-east') {
+                newY++;
+            }
+            else if (way == 'south-west') {
+                newX--;
+                newY++;
+            }
+        }
+        else {
+            if (way == 'north-east') {
+                newX++;
+                newY--;
+            }
+            else if (way == 'north-west') {
+                newY--;
+            }
+            else if (way == 'south-east') {
+                newX++;
+                newY++;
+            }
+            else if (way == 'south-west') {
+                newY++;
+            }
+        }
+        if (board[newX][newY][0] == "mountine") {
+            mine(newX, newY);
             return true;
         }
-        else if (board[x][y][4]) {
-            if (block(x, y, 1) == 'character') {
-                atack(x, y);
+        else if (board[newX][newY][4]) {
+            if (board[newX][newY][5]) {
+                atack(newX, newY);
             }
-            else if (board[x][y][0] == 'loot') {
-                pickUp(x, y);
+            else if (board[newX][newY][0] == 'loot') {
+                pickUp(newX, newY);
             }
             else {
-                this.coordsX = x;
-                this.coordsY = y;
+                this.coordsX = newX;
+                this.coordsY = newY;
             }
-            this.move--;
+            this.moves--;
             return true;
         }
         else {
             return false;
         }
     }
-
-    atack(x, y) {
-        (board[x][y][5].changeHp(board[x][y][5].getHp() - this.getAtk()))
-    }
-
-    mine(x, y) {
-        board[x][y][1].reduceLayer();
-        this.move -= 3;
-    }
-
     move(x, y) {
         let temp = this.link;
         this.coordsX = x;
@@ -115,16 +174,15 @@ class Character {
         let move = 0;
         let x = this.coordsX;
         let y = this.coordsY;
-        if (x % 2 == 0 & y % 2 != 0){
-            marginX+=100
+        if (x % 2 == 0 & y % 2 != 0) {
+            marginX += 100
         }
-        if (y % 2 == 0 & x % 2 != 0){
-            marginX-=100
+        if (y % 2 == 0 & x % 2 != 0) {
+            marginX -= 100
         }
         let character = new Image();
         character.src = this.link;
         character.onload = function () {
-            context.clearRect(0, 0,5000,5000);
             if (x % 2 == 0) {
                 context.drawImage(character, coordX, coordY, innerX, innerY, marginX, marginY, width, height);
             }
