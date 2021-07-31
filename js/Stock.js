@@ -23,7 +23,6 @@ class Slots {
         this.slotFrame = slotFrame;
         this.slotSize = slotSize;
         this.attackItem = new Slot(attackItemX, attackItemY);
-        this.defenseItem = new Slot(defenseItemX, defenseItemY);
         this.instrument = new Slot(instrumentX, instrumentY);
     }
 
@@ -35,10 +34,7 @@ class Slots {
         ctx.beginPath();
         const slotModel = new Image();
         slotModel.src = this.slotFrame;
-        slotModel.onclick = () => {
-            console.log('grgrgrgr')
-        }
-        for (let i = 0; i < 3; i++) {
+        for (let i = 0; i < 2; i++) {
             ctx.drawImage(slotModel, innerWidth - this.slotSize - 10, innerHeight / 3.5 + i * (this.slotSize + 16) + 10, this.slotSize, this.slotSize);
         }
         ctx.closePath();

@@ -1,68 +1,72 @@
-function randArr(arr) {;
-    let a = Math.floor(Math.random() * arr.length);
-    return arr[a];
-}
+var board = []; // массив поля
+var cB = [];
+cB[0] = 184; // ширина иконки (разница по X)
+cB[1] = 250; // высота иконки 
+cB[2] = 79; // разница по Y
+cB[3] = 92; //разница 2 по X
+cB[4] = [0, 1, 2, 3]; //список секторов
+cB[5] = [10, 15]; //координаты 1 сектора
+cB[6] = [9, 15]; //координаты 2 сектора
+cB[7] = [10, 14]; //координаты 3 сектора
+cB[8] = [9, 14]; //координаты 4 сектора
+cB[9] = [29, 21]; //размер поля (Y / X)
+cB[10] = [1, 0]; //координаты поля для 1 башни (Y / X)
+cB[11] = [1, cB[9][1] - 2]; //координаты поля для 2 башни (Y / X)
+cB[12] = [cB[9][0] - 2, 0]; //координаты поля для 3 башни (Y / X)
+cB[13] = [cB[9][0] - 2, cB[9][1] - 2]; //координаты поля для 4 башни (Y / X)
+cB[14] = [Math.floor(cB[9][0]/2), Math.floor(cB[9][1] / 2)]; //координаты поля для Замка (Y / X)
+cB[15] = [0, 0]; // срез 1
+cB[16] = [0, (cB[9][1] - 1)]; // срез 2
+cB[17] = [cB[9][0] - 1, 0]; // срез 3
+cB[18] = [cB[9][0] - 1, cB[9][1] - 1]; // срез 4
 
-function rand(a) {;
+function rand(a) { //рандом
     return Math.floor(Math.random() * a);
 }
 
-var waterXY = [];
-var board = [];
-var boardXY = [];
-boardXY[0] = 184; // ширина иконки (разница по X)
-boardXY[1] = 250; // высота иконки 
-boardXY[2] = 79; // разница по Y
-boardXY[3] = 92; //разница 2 по X
-var sector = []; // 0 , 1, 2, 3
-var sectorXY = [];
-sectorXY[0] = [10, 15];
-sectorXY[1] = [9, 15];
-sectorXY[2] = [10, 14];
-sectorXY[3] = [9, 14];
+function randM(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min)) + min; //Максимум не включается, минимум включается
+  }
 
-function newBoard() {
-    for (let i = 0; i < 29; i++) {
+function newB() { //новый массив
+    for (let i = 0; i < cB[9][0]; i++) {
         board[i] = [];   
-        for (let j = 0; j < 21; j++) {
+        for (let j = 0; j < cB[9][1]; j++) {
             board[i][j] = [];  
-            board[i][j][0] = -1;
-            board[i][j][1] = 1;  
-            board[i][j][2] = boardXY[0] * j;
-            board[i][j][3] = boardXY[2] * i; 
-            board[i][j][4] = true;
-            board[i][j][5] = -1;
+            board[i][j][0] = -1; // тип ячейки
+            board[i][j][1] = 1; // уровень ячейки
+            board[i][j][2] = ''; // сектор
+            board[i][j][3] = -1; //false; //забыл что
+            board[i][j][4] = true; //Block[board[i][j][0]][board[i][j][1]].canMove; // можно ходить / нельзя 
+            board[i][j][5] = cB[0] * j;
+            board[i][j][6] = cB[2] * i;
+            //board[i][j][7] = Block[board[i][j][0]][board[i][j][1]].hp; // хп / нельзя ломать
         }          
     }
 }   
 
-function tower() {
-    board[1][0][0] = 'tower';
-    board[1][0][1] = 0;
-    board[1][0][4] = true;
-    board[1][19][0] = 'tower';
-    board[1][19][1] = 1;
-    board[1][19][4] = true;
-    board[27][0][0] = 'tower';
-    board[27][0][1] = 2;
-    board[27][0][4] = true;
-    board[27][19][0] = 'tower';
-    board[27][19][1] = 3;  
-    board[27][19][4] = true; 
+function tower() { // башни
+    for (i = 10; i < 14; i++) {
+        board[cB[i][0]][cB[i][1]][0] = 'tower';
+        board[cB[i][0]][cB[i][1]][1] = 0;
+        board[cB[i][0]][cB[i][1]][4] = true;
+    }
 }
 
-function castle () {
-    board[14][10][0] = 'castle';
-    board[14][10][1] = 0;
-    board[14][10][4] = true;
+function castle () { // замок
+    board[cB[14][0]][cB[14][1]][0] = 'castle';
+    board[cB[14][0]][cB[14][1]][1] = 0;
+    board[cB[14][0]][cB[14][1]][4] = true;
 }
 
-function sectorRand () {
+function sectorR () { //рандом сектора
     let arr = [];
     let a, b;
 
     a = rand(4);
-    sector[a] = 'earth';
+    cB[4][a] = 'earth';
 
     if (a == 0) {
         arr = [1, 2];
@@ -79,159 +83,332 @@ function sectorRand () {
     }
 
     a = rand(2);
-    sector[arr[a]] = 'earth';
+    cB[4][arr[a]] = 'earth';
     
     arr.splice(a, 1);
     arr[1] = b;
     a = rand(2);
-    sector[arr[a]] = 'mountain';
+    cB[4][arr[a]] = 'mountain';
     
     arr.splice(a, 1);
-    sector[arr[0]] = 'sand';
+    cB[4][arr[0]] = 'sand';
 
-    if (sector[0] == 'earth' && sector[1] == 'earth' || sector[2] == 'earth' && sector[3]== 'earth') {
-        sectorXY[0] = [10, 14];
-        sectorXY[2] = [10, 13];
+    if (cB[4][0] == cB[4][1] || cB[4][2] == cB[4][3]) {
+        cB[5] = [cB[5][0], cB[5][1] - 1];
+        cB[7] = [cB[7][0], cB[7][1] - 1];
     }
 }
 
-function sectorINFO (x, y) {
-    let a;
-    if (x < sectorXY[0][0] & y < sectorXY[0][1]) {
-        a = sector[0];
-    } else if (x > sectorXY[1][0] && y < sectorXY[1][1]) {
-        a = sector[1];
-    } else if (x < sectorXY[2][0] && y > sectorXY[2][1]) {
-        a = sector[2];
-    } else if (x > sectorXY[3][0] && y > sectorXY[3][1]) {
-        a = sector[3];    
-    }
-    return a;
-}
-
-function sectorTest () {
-    for (let i = 0; i < 29; i++) {
-        for (let j = 0; j < 21; j++) {
-            let a = sectorINFO(j, i);
-            if (a && i % 2 == 0 && board[i][j][0] == -1) {
-                board[i][j][0] = a;
-            } else if (a && i % 2 == 1 && j < 20 && board[i][j][0] == -1) {
-                board[i][j][0] = a;                
+function sectorB () { // заполнение сектора
+    for (i = 0; i < cB[9][0]; i++) {
+        for (j = 0; j < cB[9][1]; j++) {
+            if (j < cB[5][0] & i < cB[5][1]) {
+                board[i][j][2] = cB[4][0];
+            } else if (j > cB[6][0] && i < cB[6][1]) {
+                board[i][j][2] = cB[4][1];
+            } else if (j < cB[7][0] && i > cB[7][1]) {
+                board[i][j][2] = cB[4][2];
+            } else if (j > cB[8][0] && i > cB[8][1]) {
+                board[i][j][2] = cB[4][3];    
             }
         }
     }
 }
 
-function armorCastle () {
-    for (let i = 0; i < 3; i = i + 2) {
-        let a = 9 + i;
-        if (sectorINFO(a, 14) == 'mountain' || sectorINFO(a, 14) == 'sand') {
-            board[14][a][0] = 'mountain';
-            board[14][a][1] = 5;
-            board[14][a][4] = false;
-        } else {
-            board[14][a][0] = 'mountain';
-            board[14][a][1] = 0;
-            board[14][a][4] = false;
-            waterXY.push([a, 14]);
-        }
-    }
-
-    for (let i = 0; i < 3; i = i + 2) {
-        let a = 13 + i;
-        if (sectorINFO(10, a) == 'mountain' || sectorINFO(10, a) == 'sand') {
-            board[a][10][0] = 'mountain';
-            board[a][10][1] = 5;
-            board[a][10][4] = false;
-        } else {
-            board[a][10][0] = 'earth';
-            board[a][10][1] = 0;
-            board[a][10][4] = false;
-            waterXY.push([10, a]);
-        }
-    }
-
-    for (let i = 0; i < 3; i = i + 2) {
-        let a = 13 + i;
-        if (sectorINFO(9, a) == 'mountain' || sectorINFO(9, a) == 'sand') {
-            board[a][9][0] = 'mountain';
-            board[a][9][1] = 5;
-            board[a][9][4] = false;
-        } else {
-            board[a][9][0] = 'mountain';
-            board[a][9][1] = 0;
-            board[a][9][4] = false;
-            waterXY.push([9, a]);
+function sectorT () { // отображение сектора
+    for (let i = 0; i < cB[9][0]; i++) {
+        for (let j = 0; j < cB[9][1]; j++) {
+            if (board[i][j][2] && i % 2 == 0 && board[i][j][0] == -1) {
+                board[i][j][0] = board[i][j][2];
+            } else if (board[i][j][2] && i % 2 == 1 && j < cB[9][1] && board[i][j][0] == -1) {
+                board[i][j][0] = board[i][j][2];                
+            }
         }
     }
 }
 
-function water () {
-    let a = rand(3);
-    if (sector[0] == sector[1]) {
-        waterXY[3] = [0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, -1, -1, -1, -1, -1, -1, -1];
-        waterXY[4] = 1;      
-    } else if (sector[1] == sector[3]) {
-        waterXY[3] = 1;
-        waterXY[4] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1];              
-    } else if (sector[3] == sector[2]) {
-        waterXY[3] = [0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, -1, -1, -1, -1, -1, -1, -1];
-        waterXY[4] = -1;   
-    } else if (sector[2] == sector[0]) {
-        waterXY[3] = -1;
-        waterXY[4] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1];   
+function armorC () { // граница вокруг замка
+    for (let i = 0; i < 3; i = i + 2) {
+        let a = cB[14][1] = 9 + i;
+        if (board[cB[14][0]][a][2] == 'mountain' || board[cB[14][0]][a][2] == 'sand') {
+            board[cB[14][0]][a][0] = 'mountain';
+            board[cB[14][0]][a][1] = 5;
+            board[cB[14][0]][a][4] = false;
+        } else {
+            board[cB[14][0]][a][0] = 'mountain';
+            board[cB[14][0]][a][1] = 0;
+            board[cB[14][0]][a][4] = false;
+        }
     }
 
-    if  (waterXY[3] == -1 || waterXY[3] == 1) {
-        while (waterXY[a][0] != 0 || waterXY[a][1] != 0) {
-            waterXY[a][0] += waterXY[3];
-            let b = rand (waterXY[4].length);
-            waterXY[a][0] += waterXY[4][b];
-            
-            board[waterXY[a][1]][waterXY[a][0]][0] = 'mountain';
-            board[waterXY[a][1]][waterXY[a][0]][1] = 0;
-            board[waterXY[a][1]][waterXY[a][0]][4] = false;
+    for (let i = 0; i < 3; i = i + 2) {
+        let a = cB[14][0] - 1 + i;
+        if (board[a][cB[14][1] - 1][2] == 'mountain' || board[a][cB[14][1]][2] == 'sand') {
+            board[a][cB[14][1] - 1][0] = 'mountain';
+            board[a][cB[14][1] - 1][1] = 5;
+            board[a][cB[14][1] - 1][4] = false;
+        } else {
+            board[a][cB[14][1] - 1][0] = 'earth';
+            board[a][cB[14][1] - 1][1] = 0;
+            board[a][cB[14][1] - 1][4] = false;
         }
+    }
 
+    for (let i = 0; i < 3; i = i + 2) {
+        let a = cB[14][0] - 1 + i;
+        if (board[a][cB[14][1] - 2][2] == 'mountain' || board[a][cB[14][1] - 2][2]== 'sand') {
+            board[a][cB[14][1] - 2][0] = 'mountain';
+            board[a][cB[14][1] - 2][1] = 5;
+            board[a][cB[14][1] - 2][4] = false;
+        } else {
+            board[a][cB[14][1] - 2][0] = 'mountain';
+            board[a][cB[14][1] - 2][1] = 0;
+            board[a][cB[14][1] - 2][4] = false;
+
+        }
     }
 }
+
+function oneR () {
+    let a = 20; //mountain
+    let b = 15; //loot
+    let s = 40;
+    
+    while (s > 0) {
+        let c = randM(cB[10][0] + 1, cB[14][0] + 5);
+        let d = randM(cB[10][1] + 1, cB[14][1] + 5);
+        if (board[c][d][2] == 'sand') {
+            e = randM(0, 2);            
+        } else {
+            e = 2;
+        }
+        if(board[c][d][0] == -1) {
+            s -= 1;
+            board[c][d][0] = board[c][d][2];
+            board[c][d][1] = e;
+        }
+    }
+    while (a > 0) {
+        let c = randM(cB[10][0] + 1, cB[14][0] + 5);
+        let d = randM(cB[10][1] + 1, cB[14][1] + 5);
+        let e = randM(3, 6);
+        if(board[c][d][0] == -1) {
+            a -= 1;
+            board[c][d][0] = 'mountain';
+            board[c][d][1] = e;
+        }
+    }
+    while (b > 0) {
+        let c = randM(cB[10][0] + 1, cB[14][0] + 3);
+        let d = randM(cB[10][1] + 1, cB[14][1] + 3);
+        let e;
+        if (board[c][d][2] == 'mountain' || board[c][d][2] == 'sand') {
+            e = randM(4, 7);
+        } else {
+            e = randM(0, 4);            
+        }
+        if(board[c][d][0] == -1) {
+            b -= 1;
+            board[c][d][0] = 'loot';
+            board[c][d][1] = e;
+        }
+    }
+}
+
+function twoR () {
+    let a = 20; //sand
+    let b = 15; //loot
+    let s = 40;
+    
+    while (s > 0) {
+        let c = randM(cB[11][0] + 1, cB[14][0] + 3);
+        let d = randM(cB[14][1] - 3, cB[11][1] + 2);
+        if (board[c][d][2] == 'sand') {
+            e = randM(0, 2);            
+        } else {
+            e = 2;
+        }
+        if(board[c][d][0] == -1) {
+            s -= 1;
+            board[c][d][0] = board[c][d][2];
+            board[c][d][1] = e;
+        }
+    }
+    while (a > 0) {
+        let c = randM(cB[11][0] + 1, cB[14][0] + 3);
+        let d = randM(cB[14][1] - 3, cB[11][1] + 2);
+        let e = randM(3, 6);
+        if(board[c][d][0] == -1) {
+            a -= 1;
+            board[c][d][0] = 'mountain';
+            board[c][d][1] = e;
+        }
+    }
+    while (b > 0) {
+        let c = randM(cB[11][0] + 1, cB[14][0] + 3);
+        let d = randM(cB[14][1] - 3, cB[11][1] + 2);
+        if (board[c][d][2] == 'mountain' || board[c][d][2] == 'sand') {
+            e = randM(4, 7);
+        } else {
+            e = randM(0, 4);            
+        }
+        if(board[c][d][0] == -1) {
+            b -= 1;
+            board[c][d][0] = 'loot';
+            board[c][d][1] = e;
+        }
+    }
+}
+
+function freeR () {
+    let a = 20; //sand
+    let b = 15; //loot
+    let s = 40;
+    
+    while (s > 0) {
+        let c = randM(cB[14][0] + 3, cB[12][0] - 1);
+        let d = randM(cB[12][1] + 1, cB[14][1] + 3);
+        if (board[c][d][2] == 'sand') {
+            e = randM(0, 2);            
+        } else {
+            e = 2;
+        }
+        if(board[c][d][0] == -1) {
+            s -= 1;
+            board[c][d][0] = board[c][d][2];
+            board[c][d][1] = e;
+        }
+    }
+    while (a > 0) {
+        let c = randM(cB[14][0] + 3, cB[12][0] - 1);
+        let d = randM(cB[12][1] + 1, cB[14][1] + 3);
+        let e = randM(3, 6);
+        if(board[c][d][0] == -1) {
+            a -= 1;
+            board[c][d][0] = 'mountain';
+            board[c][d][1] = e;
+        }
+    }
+    while (b > 0) {
+        let c = randM(cB[14][0] + 3, cB[12][0] - 1);
+        let d = randM(cB[12][1] + 1, cB[14][1] + 3);
+        if (board[c][d][2] == 'mountain' || board[c][d][2] == 'sand') {
+            e = randM(4, 7);
+        } else {
+            e = randM(0, 4);            
+        }
+        if(board[c][d][0] == -1) {
+            b -= 1;
+            board[c][d][0] = 'loot';
+            board[c][d][1] = e;
+        }
+    }
+}
+
+function fourR () {
+    let a = 20; //sand
+    let b = 15; //loot
+    let s = 40;
+    
+    while (s > 0) {
+        let c = randM(cB[14][0] - 3, cB[13][0] + 1);
+        let d = randM(cB[14][1] - 3, cB[13][1] + 1);
+        if (board[c][d][2] == 'sand') {
+            e = randM(0, 2);            
+        } else {
+            e = 2;
+        }
+        if(board[c][d][0] == -1) {
+            s -= 1;
+            board[c][d][0] = board[c][d][2];
+            board[c][d][1] = e;
+        }
+    }
+    while (a > 0) {
+        let c = randM(cB[14][0] - 3, cB[13][0] + 1);
+        let d = randM(cB[14][1] - 3, cB[13][1] + 1);
+        let e = randM(3, 6);
+        if(board[c][d][0] == -1) {
+            a -= 1;
+            board[c][d][0] = 'mountain';
+            board[c][d][1] = e;
+        }
+    }
+    while (b > 0) {
+        let c = randM(cB[14][0] - 3, cB[13][0] + 1);
+        let d = randM(cB[14][1] - 3, cB[13][1] + 1);
+        if (board[c][d][2] == 'mountain' || board[c][d][2] == 'sand') {
+            e = randM(4, 7);
+        } else {
+            e = randM(0, 4);            
+        }
+        if(board[c][d][0] == -1) {
+            b -= 1;
+            board[c][d][0] = 'loot';
+            board[c][d][1] = e;
+        }
+    }
+}
+
+function sectorT () { // тестовая генерация секторов
+    for (let i = 0; i < cB[9][0]; i++) {
+        for (let j = 0; j < cB[9][1]; j++) {
+            if (board[i][j][2] && i % 2 == 0 && board[i][j][0] == -1) {
+                if (board[i][j][2] == 'sand') {
+                    e = randM(0, 2);            
+                } else {
+                    e = 2;
+                }
+                board[i][j][0] = board[i][j][2];
+                board[i][j][1] = e;               
+            } else if (board[i][j][2] && i % 2 == 1 && j < cB[9][1] && board[i][j][0] == -1) {
+                if (board[i][j][2] == 'sand') {
+                    e = randM(0, 2);            
+                } else {
+                    e = 2;
+                }
+                board[i][j][0] = board[i][j][2];      
+                board[i][j][1] = e;           
+            }
+        }
+    }
+}
+
+
 
 function canMoveBoard() {
-    for (let i = 0; i < 29; i++) {
-        for (let j = 0; j < 21; j++) {
+    for (let i = 0; i < cB[9][0]; i++) {
+        for (let j = 0; j < cB[9][1]; j++) {
             if (board[i][j][0] != -1 && board[i][j][1] != -1) {
                 board[i][j][4] = Block[board[i][j][0]][board[i][j][1]].canMove;
-                board[i][j][5] = false;
-                board[i][j][6] = Block[board[i][j][0]][board[i][j][1]].hp;
             }
-        }          
+        }
     }
-}   
+}
 
-function cornerBoard() {
-    board[0][0][0] = -1;
-    board[0][0][1] = -1;
-    board[0][0][4] = false;
-    board[0][20][0] = -1;
-    board[0][20][1] = 2;
-    board[0][20][4] = false;
-    board[28][0][0] = -1;
-    board[28][0][1] = 3;
-    board[28][0][4] = false;
-    board[28][20][0] = -1;
-    board[28][20][1] = 4;  
-    board[28][20][4] = false; 
+function cornerB() { // срезает углы
+    for (i = 15; i < 19; i++) {
+        board[cB[i][0]][cB[i][1]][0] = -1;
+        board[cB[i][0]][cB[i][1]][1] = -1;
+        board[cB[i][0]][cB[i][1]][4] = false;
+    }
 }
 
 function generationBoard() {
-    tower();
+    tower ();
     castle ();
-    sectorRand ();
-    armorCastle();
-    sectorTest ();
+    sectorR ();
+    sectorB (); 
+    armorC ();
+    oneR ();
+    twoR ();
+    freeR ();
+    fourR ();
+    sectorT ()
+    //sectorT (); 
 
-    // canMoveBoard();
-    cornerBoard();
+    canMoveBoard();
+    cornerB();
 }
 
 function visualBoard() {
@@ -240,23 +417,23 @@ function visualBoard() {
         let ctx = canvas.getContext("2d");
         let img = new Image();
         img.onload = function() {      
-            for (let i = 0; i < 29; i++) {
-                for (let j = 0; j < 21; j++) {
+            for (let i = 0; i < cB[9][0]; i++) {
+                for (let j = 0; j < cB[9][1]; j++) {
                     if (board[i][j][0] != -1 && board[i][j][1] != -1) {
                         if (i % 2 == 0) {
                             ctx.drawImage(img, 
                                 Block[board[i][j][0]][board[i][j][1]].x, Block[board[i][j][0]][board[i][j][1]].y, 
-                                boardXY[0], boardXY[1], 
-                                board[i][j][2], board[i][j][3], 
-                                boardXY[0] + 2, boardXY[1] + 2
+                                cB[0], cB[1], 
+                                board[i][j][5], board[i][j][6], 
+                                cB[0] + 2, cB[1] + 2
                             );
                         }
-                        if (i % 2 == 1 && j < 20) {
+                        if (i % 2 == 1 && j < cB[9][1] - 1) {
                             ctx.drawImage(img, 
                                 Block[board[i][j][0]][board[i][j][1]].x, Block[board[i][j][0]][board[i][j][1]].y, 
-                                boardXY[0], boardXY[1], 
-                                board[i][j][2] + boardXY[3], board[i][j][3], 
-                                boardXY[0] + 2, boardXY[1] + 2
+                                cB[0], cB[1], 
+                                board[i][j][5] + cB[3], board[i][j][6], 
+                                cB[0] + 2, cB[1] + 2
                             );
                         }
                     }                        
@@ -266,3 +443,4 @@ function visualBoard() {
         img.src = 'png/Block.png';  
     }
 }
+

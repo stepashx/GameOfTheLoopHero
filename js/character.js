@@ -7,14 +7,14 @@ class Character {
     bot = false;
     alt = "";
     hp = 10;
-    atk = 5;
+    atk = 2;
     def = 0;
     weapon = false;
     tool = false
     shild = false
     coordsX = 0;
     coordsY = 0;
-    moves = 5;
+    moves = 50;
     constructor(x = 1, y = 1, pic = "png/character_maleAdventurer_sheet.png", name = "Player") {
         this.name = name;
         this.coordsY = y;
@@ -76,13 +76,13 @@ class Character {
                 this.weapon = false;
             }
         }
-        heroes[board[y][x][5]].changeHp(heroes[board[y][x][5]].getHp() - damag)
-        if (heroes[board[y][x][5]].getHp() <= 0) {
-            board[y][x][5] = -1;
+        heroes[board[y][x][3]].changeHp(heroes[board[y][x][3]].getHp() - damag)
+        if (heroes[board[y][x][3]].getHp() <= 0) {
+            board[y][x][3] = -1;
             killcount++;
             if (killcount == 3) {
                 this.hp = 0;
-                board[this.coordsY][this.coordsX][5] = -1;
+                board[this.coordsY][this.coordsX][3] = -1;
                 alert(this.name + " победил!")
                 CreateLobbyMenu()
                 unlaunch()
@@ -91,15 +91,24 @@ class Character {
                 heroes[2] = new Character(0, 27, "png/character_femalePerson_sheet.png", "Player" + 2);
                 heroes[3] = new Character(19, 27, "png/character_malePerson_sheet.png", "Player" + 3);
                 summaryTurn = 0;
-                board[1][0][5] = 0;
-                board[1][19][5] = 1;
-                board[27][0][5] = 2;
-                board[27][19][5] = 3;
+                board[1][0][3] = 0;
+                board[1][19][3] = 1;
+                board[27][0][3] = 2;
+                board[27][19][3] = 3;
 
             }
         }
     }
-
+    pickUp(){
+        let arr = ['sword', 'pick'];
+        let random = rand(2)
+        if(arr[random] == 'sword'){
+            this.weapon = ["png/sword.png", 3, rand(4)]
+        }
+        else{
+            this.tool = ["png/pick1.png", 3, rand(4)]
+        }
+    }
     mine(x, y) {
         if (this.tool) {
             this.moves--;
@@ -111,8 +120,8 @@ class Character {
         else {
             this.moves -= 3;
         }
-        board[y][x][6]--;
-
+        board[y][x][0]='earth';
+        visualBoard();
     }
     action(way) {
         let x = this.coordsX;
@@ -164,17 +173,17 @@ class Character {
             mine(newX, newY);
         }
         else if (board[newY][newX][4]) {
-            if (board[newY][newX][5] != -1) {
+            if (board[newY][newX][3] != -1) {
                 this.atack(newX, newY);
             }
             else if (board[newY][newX][0] == 'loot') {
                 this.pickUp(newX, newY);
             }
             else {
-                board[y][x][5] = -1;
+                board[y][x][3] = -1;
                 this.coordsX = newX;
                 this.coordsY = newY;
-                board[newY][newX][5] = summaryTurn % 4;
+                board[newY][newX][3] = summaryTurn % 4;
             }
             this.moves--;
         }
@@ -228,6 +237,16 @@ function draw() {
         }
         for (let j = heroes[i].hp; j < 10; j++) {
             drawHearth(10 - j, "image/blackHeart.png", i);
+        }
+        if(heroes[summaryTurn % 4].weapon){
+            let weapon = new Image();
+            weapon.src = heroes[i].weapon[0];
+            context55.drawImage(weapon, innerWidth - 90, innerHeight / 3.5 + 10, 80, 80);
+        }
+        if(heroes[summaryTurn % 4].tool){
+            let weapon = new Image();
+            weapon.src = heroes[i].tool[0];
+            context55.drawImage(weapon, innerWidth - 90, innerHeight / 3.5 + 80 + 10, 80, 80);
         }
         if (heroes[i].isLive()) {
             let coordX = 0;
