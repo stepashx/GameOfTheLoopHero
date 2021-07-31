@@ -1,3 +1,5 @@
+let canvas55 = document.getElementById("canvas1");
+let context55 = canvas55.getContext('2d');
 class Character {
     link = "png/character_maleAdventurer_sheet.png";
     name = "Player"
@@ -60,8 +62,8 @@ class Character {
     isBot() {
         return this.bot;
     }
-    endMove(){
-        return this.moves == 0 ? true : false;
+    endMove() {
+        return this.moves <= 0
     }
 
     atack(x, y) {
@@ -73,7 +75,7 @@ class Character {
                 this.weapon = false;
             }
         }
-        board[x][y][5].changeHp(board[x][y][5].getHp() - damag)
+        board[y][x][5].changeHp(board[y][x][5].getHp() - damag)
     }
 
     mine(x, y) {
@@ -87,7 +89,7 @@ class Character {
         else {
             this.moves -= 3;
         }
-        board[x][y][6]--;
+        board[y][x][6]--;
 
     }
     action(way) {
@@ -101,49 +103,49 @@ class Character {
         else if (way == 'west') {
             newX--;
         }
-        else if (x % 2 == 0) {
-            if (way == 'north-east') {
+        else if (y % 2 == 0) {
+            if (way == 'north_east') {
                 newY--;
             }
-            else if (way == 'north-west') {
+            else if (way == 'north_west') {
                 newX--;
                 newY--;
             }
-            else if (way == 'south-east') {
+            else if (way == 'south_east') {
                 newY++;
             }
-            else if (way == 'south-west') {
+            else if (way == 'south_west') {
                 newX--;
                 newY++;
             }
         }
         else {
-            if (way == 'north-east') {
+            if (way == 'north_east') {
                 newX++;
                 newY--;
             }
-            else if (way == 'north-west') {
+            else if (way == 'north_west') {
                 newY--;
             }
-            else if (way == 'south-east') {
+            else if (way == 'south_east') {
                 newX++;
                 newY++;
             }
-            else if (way == 'south-west') {
+            else if (way == 'south_west') {
                 newY++;
             }
         }
-        if(newX<0 | newY<0 | newX>29 | newY>21){
+        if (newX < 0 | newY < 0 | newX > 20 | newY > 28) {
             return 0;
         }
-        if (board[newX][newY][0] == "mountine") {
+        if (board[newY][newX][0] == "mountine") {
             mine(newX, newY);
         }
-        else if (board[newX][newY][4]) {
-            if (board[newX][newY][5]) {
+        else if (board[newY][newX][4]) {
+            if (board[newY][newX][5]) {
                 atack(newX, newY);
             }
-            else if (board[newX][newY][0] == 'loot') {
+            else if (board[newY][newX][0] == 'loot') {
                 pickUp(newX, newY);
             }
             else {
@@ -152,9 +154,13 @@ class Character {
             }
             this.moves--;
         }
-        if(this.endMove()){
+        if (this.endMove()) {
+            this.moves=7;
             summaryTurn++;
         }
+        this.coordsX = newX;
+        this.coordsY = newY;
+        this.moves--;
     }
     move(x, y) {
         let temp = this.link;
@@ -162,21 +168,36 @@ class Character {
         this.coordsY = y;
         this.draw();
     }
-    draw() {
-        let canvas = document.getElementById("canvas1");
-        let context = canvas.getContext('2d');
+
+}
+heroes = [];
+heroes[0] = new Character(0, 1, "png/character_maleAdventurer_sheet.png", "Player" + 0);
+heroes[1] = new Character(19, 1, "png/character_femaleAdventurer_sheet.png", "Player" + 1);
+heroes[2] = new Character(0, 27, "png/character_femalePerson_sheet.png", "Player" + 2);
+heroes[3] = new Character(19, 27, "png/character_malePerson_sheet.png", "Player" + 3);
+let summaryTurn = 0
+
+function preAction(way) {
+    heroes[summaryTurn % 4].action(way);
+}
+
+function draw() {
+    context55.clearRect(0, 0, 5000, 5000);
+
+    for (i = 0; i < 4; i++) {
+        
         let coordX = 0;
         let coordY = 0;
         let innerX = 90;
         let innerY = 150;
-        let marginX = 20 + this.coordsX * 184;
-        let marginX1 = 20 + this.coordsX * 92;
-        let marginY = 55 + this.coordsY * 79;
+        let marginX = 20 + heroes[i].coordsX * 184;
+        let marginX1 = 20 + heroes[i].coordsX * 92;
+        let marginY = 55 + heroes[i].coordsY * 79;
         let width = 130;
         let height = 150;
         let move = 0;
-        let x = this.coordsX;
-        let y = this.coordsY;
+        let x = heroes[i].coordsX;
+        let y = heroes[i].coordsY;
         if (x % 2 == 0 & y % 2 != 0) {
             marginX += 100
         }
@@ -184,30 +205,13 @@ class Character {
             marginX -= 100
         }
         let character = new Image();
-        character.src = this.link;
-        character.onload = function () {
-            if (x % 2 == 0) {
-                context.drawImage(character, coordX, coordY, innerX, innerY, marginX, marginY, width, height);
-            }
-            else {
-                context.drawImage(character, coordX, coordY, innerX, innerY, marginX + 92, marginY, width, height);
-            }
+        character.src = heroes[i].link;
+        if (x % 2 == 0) {
+            context55.drawImage(character, coordX, coordY, innerX, innerY, marginX, marginY, width, height);
+        }
+        else {
+            context55.drawImage(character, coordX, coordY, innerX, innerY, marginX + 92, marginY, width, height);
         }
     }
 }
-heroes = [];
-heroes[0] = new Character(0, 1, "png/character_maleAdventurer_sheet.png", "Player" + 0);
-heroes[1] = new Character(19, 1, "png/character_femaleAdventurer_sheet.png", "Player" + 1);
-heroes[2] = new Character(0, 27, "png/character_femalePerson_sheet.png", "Player" + 2);
-heroes[3] = new Character(19, 27, "png/character_malePerson_sheet.png", "Player" + 3);
-function drawHeroes() {
-    for (let i = 0; i < 4; i++) {
-        heroes[i].draw();
-    }
-}
-let summaryTurn = 0
-
-function preAction(way) {
-    heroes[summaryTurn % 4].action(way);
-}
-setInterval(drawHeroes(), 100);
+setInterval(draw, 100);
