@@ -4,9 +4,40 @@
     <meta charset="UTF-8">
     <title>GameOfTheLoot</title>
     <link rel="stylesheet" href="css/index.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap&subset=cyrillic,cyrillic-ext,latin-ext" rel="stylesheet">
 </head>
 <body>
+    <div style="position: relative; display: none;">
+        <canvas id="canvas" width="4000" height="4000" style="position: absolute; left: 0; top: 0; z-index: 0;"></canvas>
+        <canvas id="canvas1" width="4000" height="4000" style="position: absolute; left: 0; top: 0; z-index: 0;"></canvas>
+    </div>
 
+    <script src="js/character.js"> </script>
+    <!--  <main id="main"></main>-->
+    <script src="js/gameMenu.js"></script>
+    <script src="js/res.js"> </script>
+    <script src="js/board.js"> </script>
     <script src="js/index.js"></script>
+
+
+
+    <div class="compass">
+        <svg viewBox="0 0 200 200">
+            <path onclick="" id="west" class="triangle" fill="#e52165" d="M 3.3246269,52.639925 100.29291,101.95522 1.6623134,148.5 Z"/>
+            <path id="north_west" class="triangle" fill="#0d1137" d="M 100.29291,101.95522 99.738806,3.3246269 3.3246269,52.639925 Z"/>
+            <path id="north_east" class="triangle" fill="#e52165" d="M 99.738806,3.3246269 100.29291,101.95522 197.26119,53.194029 Z"/>
+            <path id="east" class="triangle" fill="#0d1137" d="m 100.29291,101.95522 96.96828,-48.761191 0.55411,96.414181 z"/>
+            <path id="south_east" class="triangle" fill="#e52165" d="m 100.29291,101.95522 97.52239,47.65299 -98.076494,49.3153 z"/>
+            <path id="south_west" class="triangle" fill="#0d1137" d="M 100.29291,101.95522 99.738806,198.92351 1.6623134,148.5 Z"/>
+        </svg>
+        <img src="./image/compass.png" alt="" width="200px" height="200px">
+    </div>
+    <canvas id = "myCanvas" style="width: max-content; height: max-content"></canvas>
+    <script src="js/Canvas.js"></script>
+    <script src="js/Time.js"></script>
+    <script src="js/HealthPoint.js"></script>
+    <script src="js/Stock.js"></script>
+<!--    <script src="js/Compass.js"></script>-->
+    <script src="js/interface.js"></script>
 </body>
 </html>

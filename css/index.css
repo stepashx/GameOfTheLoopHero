@@ -1,0 +1,258 @@
+/*------------zero------------*/
+
+* {
+    padding: 0;
+    margin: 0;
+    border: 0;
+}
+
+*, *:before, *:after {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+:focus, :active {
+    outline: none;
+}
+
+a:focus, a:active {
+    outline: none;
+}
+
+nav, footer, header, aside {
+    display: block;
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+    line-height: 1;
+    font-size: 14px;
+    -ms-text-size-adjust: 100%;
+    -moz-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+}
+
+input, button, textarea {
+    font-family: inherit;
+}
+
+input::-ms-clear {
+    display: none;
+}
+
+button {
+    cursor: pointer;
+}
+
+button::-moz-focus-inner {
+    padding: 0;
+    border: 0;
+}
+
+a, a:visited {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+ul li {
+    list-style: none;
+}
+
+img {
+    vertical-align: top;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-size: inherit;
+    font-weight: 400;
+}
+
+/*------------zero------------*/
+
+/*------------body------------*/
+
+body {
+    background-image: url("../images/background.jpg");
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.button {
+    height: 50px;
+    padding: 14px;
+    display: flex;
+    justify-content: center;
+    background: white;
+    border-radius: 10px;
+    font-family: "Montserrat", serif;
+    font-size: 20px;
+}
+
+.screen {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.enter_menu {
+    display: flex;
+    flex-direction: column;
+}
+
+.logo {
+    margin-bottom: 200px;
+}
+
+.begin_game {
+    display: flex;
+    justify-content: center;
+}
+
+.enter_in_game {
+    cursor: pointer;
+}
+
+.nickname {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.nickname_input {
+    box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.4);
+    height: 20px;
+}
+
+.bot {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.bot_check {
+    display: flex;
+}
+
+.bot_text {
+    margin-left: 5px;
+}
+
+.hero {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+}
+
+.hero_img {
+    width: 100px;
+    height: 100px;
+    border: black solid 2px;
+    border-radius: 10px;
+    background: white;
+}
+
+.choose_your_hero {
+    display: flex;
+    font-family: "Montserrat", serif;
+    font-size: 20px;
+}
+.heroes {
+    width: 500px;
+    font-family: "Montserrat", serif;
+    font-size: 20px;
+}
+
+.create_game {
+    margin-left: 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.menu {
+    width: 300px;
+    height: 500px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 100px;
+}
+
+.menu_of_lobby {
+    width: 700px;
+    border-radius: 20px;
+    padding: 50px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.list_of_lobby {
+    align-content: center;
+}
+
+.lobbies {
+    height: 300px;
+    overflow-y: scroll;
+}
+
+.lobby {
+    width: 400px;
+    height: 400px;
+    border-radius: 5px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.box {
+    margin-top: 60px;
+    width: 200px;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.auth:hover, .buttons_for_lobby:hover {
+    background: #f1f1f1;
+    cursor: pointer;
+}
+
+.lobby_button, .buttons_for_lobby {
+    margin-top: 20px;
+    color: black;
+}
+
+.buttons_for_lobby {
+    margin-top: 40px;
+}
+
+/*------------body------------*/
+
+.compass {
+    position: fixed;
+    margin-top: 800px;
+    margin-left: 20px;
+}
+
+svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.triangle:hover {
+    cursor: pointer;
+}
