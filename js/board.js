@@ -167,10 +167,30 @@ function armorCastle () {
 function water () {
     let a = rand(3);
     if (sector[0] == sector[1]) {
-        
+        waterXY[3] = [0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, -1, -1, -1, -1, -1, -1, -1];
+        waterXY[4] = 1;      
     } else if (sector[1] == sector[3]) {
+        waterXY[3] = 1;
+        waterXY[4] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1];              
     } else if (sector[3] == sector[2]) {
+        waterXY[3] = [0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, -1, -1, -1, -1, -1, -1, -1];
+        waterXY[4] = -1;   
     } else if (sector[2] == sector[0]) {
+        waterXY[3] = -1;
+        waterXY[4] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1];   
+    }
+
+    if  (waterXY[3] == -1 || waterXY[3] == 1) {
+        while (waterXY[a][0] != 0 || waterXY[a][1] != 0) {
+            waterXY[a][0] += waterXY[3];
+            let b = rand (waterXY[4].length);
+            waterXY[a][0] += waterXY[4][b];
+            
+            board[waterXY[a][1]][waterXY[a][0]][0] = 'mountain';
+            board[waterXY[a][1]][waterXY[a][0]][1] = 0;
+            board[waterXY[a][1]][waterXY[a][0]][4] = false;
+        }
+
     }
 }
 
